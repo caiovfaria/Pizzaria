@@ -3,6 +3,12 @@
 
 Site responsivo para uma pizzaria artesanal, com cardápio separado entre pizzas salgadas e doces, personalização de sabores, carrinho persistente e fluxo completo de revisão do pedido.
 
+## Site online
+
+[Abrir a Pizzaria Fornalha](https://caiovfaria.github.io/Pizzaria/)
+
+O site é publicado automaticamente pelo GitHub Pages sempre que uma nova versão é enviada para a branch `main`.
+
 ## Funcionalidades
 
 - 10 pizzas salgadas e 5 pizzas doces
@@ -35,6 +41,8 @@ Para visualizar a versão compilada:
 ```bash
 npm run preview
 ```
+
+As páginas do cardápio usam rotas com `#` para continuarem funcionando mesmo quando o visitante atualiza a página no GitHub Pages.
 
 ## Configuração pendente
 
