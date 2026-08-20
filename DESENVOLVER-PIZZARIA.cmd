@@ -14,6 +14,5 @@ if not exist "node_modules" (
 )
 
 echo Iniciando o modo de desenvolvimento...
-start "" powershell -NoProfile -WindowStyle Hidden -Command "Start-Sleep -Seconds 3; Start-Process 'http://127.0.0.1:5173/'"
+start "" powershell -NoProfile -WindowStyle Hidden -Command "Start-Sleep -Seconds 3; Start-Process 'http://127.0.0.1:5173/Pizzaria/'"
 call npm run dev -- --host 127.0.0.1
-
