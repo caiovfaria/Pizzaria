@@ -31,19 +31,20 @@ const money=(value:number)=>new Intl.NumberFormat("pt-BR",{style:"currency",curr
 const storeIsOpen=()=>{const now=new Date(),day=now.getDay(),minutes=now.getHours()*60+now.getMinutes();return day!==1&&minutes>=18*60&&minutes<=23*60+30};
 
 export default function App(){
-  const [path,setPath]=useState(window.location.pathname);
+  const routeFromHash=()=>window.location.hash.replace(/^#/,"")||"/";
+  const [path,setPath]=useState(routeFromHash);
   const [menuOpen,setMenuOpen]=useState(false),[scrolled,setScrolled]=useState(false),[cartOpen,setCartOpen]=useState(false),[checkoutOpen,setCheckoutOpen]=useState(false),[copied,setCopied]=useState(false);
   const [selected,setSelected]=useState<Product|null>(null),[size,setSize]=useState<SizeKey>("M"),[crust,setCrust]=useState("Tradicional"),[selectedExtras,setSelectedExtras]=useState<string[]>([]),[secondFlavorId,setSecondFlavorId]=useState<number|null>(null),[note,setNote]=useState(""),[quantity,setQuantity]=useState(1);
   const [coupon,setCoupon]=useState("");
   const [cart,setCart]=useState<CartItem[]>(()=>{try{return JSON.parse(localStorage.getItem("fornalha-cart")||"[]")}catch{return[]}});
   const [customer,setCustomer]=useState({name:"",phone:"",type:"delivery" as OrderType,street:"",number:"",district:"",reference:"",payment:"Pix",change:""});
   useEffect(()=>{const fn=()=>setScrolled(scrollY>60);addEventListener("scroll",fn);return()=>removeEventListener("scroll",fn)},[]);
-  useEffect(()=>{const fn=()=>setPath(window.location.pathname);addEventListener("popstate",fn);return()=>removeEventListener("popstate",fn)},[]);
+  useEffect(()=>{const fn=()=>setPath(routeFromHash());addEventListener("hashchange",fn);return()=>removeEventListener("hashchange",fn)},[]);
   useEffect(()=>localStorage.setItem("fornalha-cart",JSON.stringify(cart)),[cart]);
   const itemCount=cart.reduce((s,i)=>s+i.quantity,0),subtotal=cart.reduce((s,i)=>s+i.unitPrice*i.quantity,0),deliveryFee=customer.type==="delivery"&&cart.length?DELIVERY_FEE:0,discount=coupon.trim().toUpperCase()==="PRIMEIRA10"?subtotal*.1:0,total=Math.max(0,subtotal+deliveryFee-discount);
   const configuredPrice=useMemo(()=>{if(!selected)return 0;const second=products.find(product=>product.id===secondFlavorId);const base=second?Math.max(selected.prices[size],second.prices[size]):selected.prices[size];return base+(crusts.find(i=>i.name===crust)?.price||0)+extras.filter(i=>selectedExtras.includes(i.name)).reduce((s,i)=>s+i.price,0)},[selected,size,crust,selectedExtras,secondFlavorId]);
   const scrollTo=(id:string)=>{document.getElementById(id)?.scrollIntoView({behavior:"smooth"});setMenuOpen(false)};
-  const navigate=(nextPath:string)=>{history.pushState({},"",nextPath);setPath(nextPath);window.scrollTo({top:0,behavior:"smooth"});setMenuOpen(false)};
+  const navigate=(nextPath:string)=>{window.location.hash=nextPath;setPath(nextPath);window.scrollTo({top:0,behavior:"smooth"});setMenuOpen(false)};
   const goSection=(id:string)=>{if(path!=="/"){navigate("/");window.setTimeout(()=>document.getElementById(id)?.scrollIntoView({behavior:"smooth"}),80)}else scrollTo(id)};
   const goMenu=(category:"salgadas"|"doces"="salgadas")=>navigate(`/cardapio/${category}`);
   const openProduct=(p:Product)=>{setSelected(p);setSize("M");setCrust("Tradicional");setSelectedExtras([]);setSecondFlavorId(null);setNote("");setQuantity(1)};
