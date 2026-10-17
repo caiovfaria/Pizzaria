@@ -175,11 +175,27 @@
     font-size: var(--text-base);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
+    border-radius: var(--radius-sm);
   }
 
-  input {
+  input,
+  select,
+  textarea {
     font-size: var(--text-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+    border-radius: var(--radius-sm);
+  }
+
+  article,
+  [role="dialog"],
+  aside {
+    border-radius: var(--radius-md);
+  }
+}
+
+@layer utilities {
+  .border {
+    border-radius: var(--radius-sm);
   }
 }

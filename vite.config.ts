@@ -20,6 +20,8 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig({
+  // O projeto será publicado em https://caiovfaria.github.io/Pizzaria/
+  base: '/Pizzaria/',
   plugins: [
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if
