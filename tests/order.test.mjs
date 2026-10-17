@@ -6,6 +6,13 @@ const base={key:'test-only',productId:1,name:'Não confiar no nome salvo',size:'
 test('catalog remains 10 savory and 5 sweet, original prices retained',async()=>{const {products}=await import('../src/app/catalog.ts');assert.equal(products.filter(p=>p.category==='salgadas').length,10);assert.equal(products.filter(p=>p.category==='doces').length,5);assert.equal(products[0].prices.M,45.9)});
 test('saved cart prices and names are recalculated, not trusted',()=>{const [item]=parseCart(JSON.stringify([base]));assert.equal(item.unitPrice,45.9);assert.equal(item.name,'Calabresa Artesanal')});
 test('half and half uses higher price plus crust and extras',()=>{assert.equal(priceFor(1,'M','Catupiry',['Bacon'],'Pepperoni Especial'),64.9)});
+test('either half can be the first flavour and survives saved-cart recalculation',()=>{
+  assert.equal(priceFor(5,'M','Catupiry',['Bacon'],'Calabresa Artesanal'),64.9);
+  const [item]=parseCart(JSON.stringify([{...base,productId:5,secondFlavor:'Calabresa Artesanal',crust:'Catupiry',extras:['Bacon'],quantity:1}]));
+  assert.equal(item.name,'Pepperoni Especial');assert.equal(item.secondFlavor,'Calabresa Artesanal');assert.equal(item.unitPrice,64.9);
+  assert.equal(totals([item],false,'').total,64.9);
+  assert.equal(priceFor(2,'M','Tradicional',[]),43.9);
+});
 test('invalid JSON, quantities, sizes and extras are rejected',()=>{for(const raw of ['{bad','{}',JSON.stringify([{...base,quantity:-1}]),JSON.stringify([{...base,quantity:21}]),JSON.stringify([{...base,size:'X'}]),JSON.stringify([{...base,extras:['unknown']}]),JSON.stringify([{...base,extras:['Bacon','Bacon']}])])assert.throws(()=>parseCart(raw))});
 test('sweet/savory mixed and same flavor are rejected',()=>{assert.throws(()=>priceFor(1,'M','Tradicional',[],'Banana com Canela'));assert.throws(()=>priceFor(1,'M','Tradicional',[],'Calabresa Artesanal'))});
 test('currency calculations use cents; coupon, delivery and pickup',()=>{const cart=parseCart(JSON.stringify([base]));assert.deepEqual(totals(cart,true,'primeira10'),{subtotal:91.8,discount:9.18,deliveryFee:7,total:89.62});assert.equal(totals(cart,false,'').total,91.8);assert.equal(totals([],true,'').total,0)});
