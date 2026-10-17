@@ -34,7 +34,7 @@ jobs:
         run: npm ci
 
       - name: Verificar o pedido e a abertura
-        run: node --test tests/order.test.mjs
+        run: node --test tests/*.test.mjs
 
       - name: Gerar o site
         run: npm run build

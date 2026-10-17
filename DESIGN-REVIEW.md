@@ -4,6 +4,8 @@
 Creme, carvão, vermelho de forno e verde oliva. Tipografia editorial com fontes do sistema, sem download de fontes. Fotografia de destaque e cardápio textual com preço por tamanho. Imagens identificadas como ilustrativas; sem nota de avaliação, endereço ou prazo de entrega inventados.
 
 ## Movimento e acessibilidade
+
+Modo claro/escuro: botão no cabeçalho com rótulo acessível e preferência local independente do carrinho. Na primeira visita segue o sistema; inicialização antes da renderização evita clarão de fundo claro. Trata armazenamento indisponível e alterações em outras abas. Contrastes principais testados (4,5:1 ou superior), inspeção do cabeçalho e personalização em 320px, alternância por teclado e persistência ao recarregar. Mudança disponível apenas na prévia até aprovação de publicação.
 Abertura original em SVG/CSS: cortador atravessa a pizza horizontalmente, duas metades se afastam e a tela desaparece. Limite de 2,9 segundos, Escape/atalho para entrar e respeito à redução de movimento. Nenhuma nova biblioteca de animação.
 Janelas com dialog nativo, foco contido, retorno de foco, Escape e fechamento pelo fundo. Opções em radio/checkbox nativos, campos rotulados, link de pular conteúdo e foco visível.
 
